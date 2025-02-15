@@ -1,4 +1,4 @@
-﻿namespace aweXpect.T6e.Tests;
+﻿namespace aweXpect.Web.Tests;
 
 public sealed class DummyTests
 {

@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Source\aweXpect.T6e\aweXpect.T6e.csproj"/>
+		<ProjectReference Include="..\..\Source\aweXpect.Web\aweXpect.Web.csproj"/>
 	</ItemGroup>
 
 	<ItemGroup>

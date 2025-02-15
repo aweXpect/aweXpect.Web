@@ -16,7 +16,7 @@ partial class Build
 
 	Project[] UnitTestProjects =>
 	[
-		Solution.Tests.aweXpect_T6e_Tests,
+		Solution.Tests.aweXpect_Web_Tests,
 	];
 
 	Target DotNetUnitTests => _ => _
