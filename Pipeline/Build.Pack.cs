@@ -1,11 +1,11 @@
-using Nuke.Common;
-using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Utilities.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Nuke.Common;
+using Nuke.Common.IO;
+using Nuke.Common.ProjectModel;
 using Nuke.Common.Utilities;
+using Nuke.Common.Utilities.Collections;
 using static Serilog.Log;
 
 // ReSharper disable AllUnderscoreLocalParameterName
@@ -71,7 +71,10 @@ partial class Build
 			AbsolutePath packagesDirectory = ArtifactsDirectory / "Packages";
 			packagesDirectory.CreateOrCleanDirectory();
 
-			foreach (Project project in new[] { Solution.aweXpect_Web })
+			foreach (Project project in new[]
+			         {
+				         Solution.aweXpect_Web,
+			         })
 			{
 				foreach (string package in
 				         Directory.EnumerateFiles(project.Directory / "bin", "*.nupkg", SearchOption.AllDirectories))

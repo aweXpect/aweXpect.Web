@@ -27,7 +27,7 @@ partial class Build
 			string[] excludedFrameworks =
 				EnvironmentInfo.IsWin
 					? []
-					: ["net48"];
+					: ["net48",];
 			DotNetTest(s => s
 					.SetConfiguration(Configuration)
 					.SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
