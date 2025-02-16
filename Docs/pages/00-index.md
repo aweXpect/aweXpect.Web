@@ -1,12 +1,11 @@
-# aweXpect.Web
-[![Nuget](https://img.shields.io/nuget/v/aweXpect.Web)](https://www.nuget.org/packages/aweXpect.Web) 
-[![Build](https://github.com/aweXpect/aweXpect.Web/actions/workflows/build.yml/badge.svg)](https://github.com/aweXpect/aweXpect.Web/actions/workflows/build.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=aweXpect_aweXpect.Web&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=aweXpect_aweXpect.Web)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aweXpect_aweXpect.Web&metric=coverage)](https://sonarcloud.io/summary/new_code?id=aweXpect_aweXpect.Web)
+# [aweXpect.Web](https://github.com/aweXpect/aweXpect.Web) [![Nuget](https://img.shields.io/nuget/v/aweXpect.Web)](https://www.nuget.org/packages/aweXpect.Web)
 
-Web extensions for [aweXpect](https://github.com/aweXpect/aweXpect).
+Expectations for `HttpClient`.
 
-## Content
+
+## `HttpResponseMessage`
+
+### Content
 
 You can verify, the content of the `HttpResponseMessage`:
 
@@ -18,7 +17,7 @@ await Expect.That(response).HasContent("*aweXpect*").AsWildcard();
 
 You can use the same configuration options as when [comparing strings](/docs/expectations/string#equality).
 
-## Status
+### Status code
 
 You can verify, that the status code of the `HttpResponseMessage`:
 
@@ -49,3 +48,4 @@ The response could look similar to:
 >   The originating request was:
 >     GET https://github.com/aweXpect/missing-repo HTTP 1.1
 > ```
+

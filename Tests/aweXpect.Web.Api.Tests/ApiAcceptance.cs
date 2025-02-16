@@ -10,7 +10,7 @@ public sealed class ApiAcceptance
 	{
 		string[] assemblyNames =
 		[
-			"aweXpect.T6e",
+			"aweXpect.Web",
 		];
 
 		foreach (string assemblyName in assemblyNames)
