@@ -28,7 +28,7 @@ partial class Build
 				Console.WriteLine(
 					$"Branch spec is a pull request. Adding build number {buildNumber}");
 
-				SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union([buildNumber]));
+				SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union([buildNumber,]));
 			}
 
 			Console.WriteLine($"SemVer = {SemVer}");
@@ -75,14 +75,14 @@ partial class Build
 
 			ReportSummary(s => s
 				.WhenNotNull(SemVer, (summary, semVer) => summary
-					.AddPair("Version", semVer+ preRelease)));
+					.AddPair("Version", semVer + preRelease)));
 
 			DotNetBuild(s => s
 				.SetProjectFile(Solution)
 				.SetConfiguration(Configuration)
 				.EnableNoLogo()
 				.EnableNoRestore()
-				.SetVersion(SemVer+ preRelease)
+				.SetVersion(SemVer + preRelease)
 				.SetAssemblyVersion(GitVersion.AssemblySemVer)
 				.SetFileVersion(GitVersion.AssemblySemFileVer)
 				.SetInformationalVersion(GitVersion.InformationalVersion));
