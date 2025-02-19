@@ -4,8 +4,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace aweXpect.Web.Samples;
 
+/// <summary>
+///     Sample application for aweXpect.Web
+/// </summary>
+#pragma warning disable S1118 // Add a 'protected' constructor or the 'static' keyword to the class declaration
 public class Program
 {
+	/// <summary>
+	///     The main method.
+	/// </summary>
 	public static void Main(string[] args)
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -25,3 +32,4 @@ public class Program
 		app.Run();
 	}
 }
+#pragma warning restore S1118

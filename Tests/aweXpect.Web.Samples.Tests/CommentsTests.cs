@@ -13,7 +13,7 @@ public class CommentsTests(WebApplicationFactory<Program> factory) : IClassFixtu
 	{
 		HttpClient client = factory.CreateClient();
 
-		HttpResponseMessage response = await client.GetAsync("/comments");
+		HttpResponseMessage response = await client.GetAsync("/comments", TestContext.Current.CancellationToken);
 
 		await Expect.That(response).HasStatusCode().EqualTo(HttpStatusCode.OK);
 	}
