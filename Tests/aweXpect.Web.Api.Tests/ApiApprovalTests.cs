@@ -20,7 +20,7 @@ public sealed class ApiApprovalTests
 		await That(publicApi).IsEqualTo(expectedApi);
 	}
 
-	public static IEnumerable<string> TargetFrameworksTheoryData()
+	private static IEnumerable<string> TargetFrameworksTheoryData()
 	{
 		List<string> theoryData = new();
 		foreach (string targetFramework in Helper.GetTargetFrameworks())
