@@ -36,6 +36,7 @@ public sealed partial class ContentProcessor
 		[InlineData("video/mpeg")]
 		[InlineData("image/gif")]
 		[InlineData("image/webp")]
+		[InlineData("application/pdf")]
 		public async Task WhenContentTypeIsInterpretedAsBinaryContent_ShouldIncludeContentTypeAndLengthInFailureMessage(
 			string contentType)
 		{

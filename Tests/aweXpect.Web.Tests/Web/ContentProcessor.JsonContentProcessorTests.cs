@@ -11,7 +11,34 @@ public sealed partial class ContentProcessor
 		[Theory]
 		[InlineData("application/json")]
 		[InlineData("application/problem+json")]
-		public async Task JsonString_WithValidJson_ShouldIncludePrettifiedJsonInFailureMessage(
+		public async Task JsonContent_WithInvalidJson_ShouldIncludeRawTextInFailureMessage(
+			string contentType)
+		{
+			HttpResponseMessage httpResponse = new HttpResponseBuilder()
+				.WithContent("{\"my-content\":1")
+				.WithMediaType(contentType);
+
+			async Task Act()
+				=> await That(httpResponse).HasStatusCode().EqualTo(HttpStatusCode.Accepted);
+
+			await That(Act).Throws<XunitException>()
+				.WithMessage("""
+				             Expected that httpResponse
+				             has status code 202 Accepted,
+				             but it had status code 200 OK
+
+				             HTTP-Request:
+				               HTTP/1.1 200 OK
+				               {"my-content":1
+				               *** JSON parse error: '1' is an invalid end of a number. Expected a delimiter. LineNumber: 0 | BytePositionInLine: 15. ***
+				               The originating request was <null>
+				             """);
+		}
+
+		[Theory]
+		[InlineData("application/json")]
+		[InlineData("application/problem+json")]
+		public async Task JsonContent_WithValidJson_ShouldIncludePrettifiedJsonInFailureMessage(
 			string contentType)
 		{
 			HttpResponseMessage httpResponse = new HttpResponseBuilder()

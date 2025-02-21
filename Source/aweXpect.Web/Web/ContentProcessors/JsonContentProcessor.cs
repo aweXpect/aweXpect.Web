@@ -13,6 +13,11 @@ namespace aweXpect.Web.ContentProcessors;
 /// </summary>
 public class JsonContentProcessor : IContentProcessor
 {
+	private static readonly JsonSerializerOptions SerializerOptions = new()
+	{
+		WriteIndented = true,
+	};
+
 	/// <inheritdoc cref="IContentProcessor.AppendContentInfo(StringBuilder, HttpContent, string, CancellationToken)" />
 	public async Task<bool> AppendContentInfo(
 		StringBuilder messageBuilder,
@@ -36,16 +41,17 @@ public class JsonContentProcessor : IContentProcessor
 		{
 			using JsonDocument jsonDocument =
 				await JsonDocument.ParseAsync(
+#if NETSTANDARD2_0
 					await httpContent.ReadAsStreamAsync(),
+#else
+					await httpContent.ReadAsStreamAsync(cancellationToken),
+#endif
 					new JsonDocumentOptions
 					{
 						AllowTrailingCommas = true,
 					},
 					cancellationToken);
-			string? prettifiedJson = JsonSerializer.Serialize(jsonDocument, new JsonSerializerOptions
-			{
-				WriteIndented = true,
-			});
+			string? prettifiedJson = JsonSerializer.Serialize(jsonDocument, SerializerOptions);
 
 			messageBuilder.AppendLine(prettifiedJson.Indent(indentation));
 			return true;
@@ -63,7 +69,7 @@ public class JsonContentProcessor : IContentProcessor
 		messageBuilder.AppendLine(stringContent.Indent(indentation));
 		if (parseError != null)
 		{
-			messageBuilder.Append(indentation).Append($"*** JSON parse error: {parseError} ***");
+			messageBuilder.Append(indentation).AppendLine($"*** JSON parse error: {parseError} ***");
 		}
 
 		return true;

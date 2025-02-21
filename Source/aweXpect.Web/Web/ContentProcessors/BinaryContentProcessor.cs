@@ -38,7 +38,7 @@ public class BinaryContentProcessor : IContentProcessor
 		return Task.FromResult(true);
 	}
 
-	private bool IsSupportedMediaType(string mediaType)
+	private static bool IsSupportedMediaType(string mediaType)
 		=> mediaType.StartsWith("audio/", StringComparison.OrdinalIgnoreCase) ||
 		   mediaType.StartsWith("image/", StringComparison.OrdinalIgnoreCase) ||
 		   mediaType.StartsWith("video/", StringComparison.OrdinalIgnoreCase) ||
