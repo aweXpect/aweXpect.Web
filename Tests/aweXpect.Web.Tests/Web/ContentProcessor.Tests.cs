@@ -15,7 +15,7 @@ public sealed partial class ContentProcessor
 			content.Dispose();
 			HttpResponseMessage httpResponse = new HttpResponseBuilder()
 				.WithContent(content)
-				.WithMediaType("application/my-type");
+				.WithContentType("application/my-type");
 
 			async Task Act()
 				=> await That(httpResponse).HasStatusCode().EqualTo(HttpStatusCode.Accepted);
@@ -37,7 +37,7 @@ public sealed partial class ContentProcessor
 		public async Task WithoutContent_ShouldReturnDefaultText()
 		{
 			HttpResponseMessage httpResponse = new HttpResponseBuilder()
-				.WithMediaType("application/my-type");
+				.WithContentType("application/my-type");
 
 			async Task Act()
 				=> await That(httpResponse).HasStatusCode().EqualTo(HttpStatusCode.Accepted);
