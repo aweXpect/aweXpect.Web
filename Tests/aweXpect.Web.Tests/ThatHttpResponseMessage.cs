@@ -77,5 +77,4 @@ public sealed partial class ThatHttpResponseMessage
 			HttpStatusCode.ResetContent,
 			HttpStatusCode.PartialContent,
 		];
-
 }
