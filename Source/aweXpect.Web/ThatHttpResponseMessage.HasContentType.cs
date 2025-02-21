@@ -46,7 +46,8 @@ public static partial class ThatHttpResponseMessage
 				string formattedResponse =
 					await HttpResponseMessageFormatter.Format(actual, "  ", cancellationToken);
 				return new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
-					$"{it} had no `Content-Type` header");
+					$"{it} had no `Content-Type` header")
+					.WithContext("HTTP-Request", formattedResponse);
 			}
 
 			if (!options.AreConsideredEqual(contentType, expected))
