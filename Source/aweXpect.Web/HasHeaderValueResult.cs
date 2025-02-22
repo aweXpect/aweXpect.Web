@@ -65,7 +65,7 @@ public class HasHeaderValueResult<TType, TThat>
 	}
 
 	/// <summary>
-	///     Verifies that the header values satisfies the <paramref name="expectations" />.
+	///     Verifies that the header values satisfy the <paramref name="expectations" />.
 	/// </summary>
 	public AndOrResult<TType, TThat> WhoseValues(
 		Action<IThat<string?[]?>> expectations)

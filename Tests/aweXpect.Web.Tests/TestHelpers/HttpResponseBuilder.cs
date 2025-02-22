@@ -85,6 +85,7 @@ internal sealed class HttpResponseBuilder
 		{
 			httpResponseMessage.Headers.Add(header.Key, header.Value);
 		}
+
 		foreach (KeyValuePair<string, string[]> header in _multiHeaders)
 		{
 			httpResponseMessage.Headers.Add(header.Key, header.Value);
