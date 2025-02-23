@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
-using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using static Serilog.Log;
 
@@ -64,13 +64,10 @@ partial class Build
 		.DependsOn(Compile)
 		.Executes(() =>
 		{
-			ReportSummary(s => s
-				.WhenNotNull(SemVer, (c, semVer) => c
-					.AddPair("Packed version", semVer)));
-
 			AbsolutePath packagesDirectory = ArtifactsDirectory / "Packages";
 			packagesDirectory.CreateOrCleanDirectory();
 
+			List<string> packages = new();
 			foreach (Project project in new[]
 			         {
 				         Solution.aweXpect_Web,
@@ -81,6 +78,7 @@ partial class Build
 				{
 					File.Move(package, packagesDirectory / Path.GetFileName(package));
 					Debug("Found nuget package: {PackagePath}", package);
+					packages.Add(Path.GetFileName(package));
 				}
 
 				foreach (string symbolPackage in
@@ -90,5 +88,8 @@ partial class Build
 					Debug("Found symbol package: {PackagePath}", symbolPackage);
 				}
 			}
+
+			ReportSummary(s => s
+				.AddPair("Packages", string.Join(", ", packages)));
 		});
 }
