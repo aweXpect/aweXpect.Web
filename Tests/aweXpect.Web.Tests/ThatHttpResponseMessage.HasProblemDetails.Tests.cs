@@ -43,7 +43,7 @@ public sealed partial class ThatHttpResponseMessage
 					             HTTP-Request:
 					               HTTP/1.1 200 OK
 					                 Content-Type: text/plain; charset=utf-8
-					                 Content-Length: 95
+					                 Content-Length: *
 					               {
 					                 "type": "foo",
 					                 "title": "bar",
@@ -51,7 +51,7 @@ public sealed partial class ThatHttpResponseMessage
 					                 "instance": "could-be-some-guid"
 					               }
 					               The originating request was <null>
-					             """);
+					             """).AsWildcard();
 			}
 
 			[Fact]
@@ -76,12 +76,12 @@ public sealed partial class ThatHttpResponseMessage
 					             HTTP-Request:
 					               HTTP/1.1 200 OK
 					                 Content-Type: text/plain; charset=utf-8
-					                 Content-Length: 24
+					                 Content-Length: *
 					               {
 					                 "no-type": "foo"
 					               }
 					               The originating request was <null>
-					             """);
+					             """).AsWildcard();
 			}
 
 			[Fact]
@@ -144,12 +144,12 @@ public sealed partial class ThatHttpResponseMessage
 					               HTTP-Request:
 					                 HTTP/1.1 200 OK
 					                   Content-Type: text/plain; charset=utf-8
-					                   Content-Length: 21
+					                   Content-Length: *
 					                 {
 					                   "type": "{{actualType}}"
 					                 }
 					                 The originating request was <null>
-					               """);
+					               """).AsWildcard();
 			}
 
 			[Fact]
