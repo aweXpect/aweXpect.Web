@@ -24,7 +24,8 @@ public static partial class ThatHttpResponseMessage
 	///     Type:
 	///     A URI reference [<see href="https://datatracker.ietf.org/doc/html/rfc3986" />] that identifies the problem type.
 	///     This specification encourages that, when dereferenced, it provide human-readable documentation for
-	///     the problem type (e.g., using HTML [<see href="https://datatracker.ietf.org/doc/html/rfc7807#ref-W3C.REC-html5-20141028" />]).
+	///     the problem type (e.g., using HTML [
+	///     <see href="https://datatracker.ietf.org/doc/html/rfc7807#ref-W3C.REC-html5-20141028" />]).
 	///     When this member is not present, its value is assumed to be "about:blank".
 	/// </remarks>
 	public static ProblemDetailsResult<HttpResponseMessage, IThat<HttpResponseMessage?>>.String
@@ -127,11 +128,10 @@ public static partial class ThatHttpResponseMessage
 		}
 
 		public override string ToString()
-			=> (expectedType == null) switch
+			=> expectedType switch
 			{
-				true => $"has a ProblemDetails content with any type{options}",
-				false =>
-					$"has a ProblemDetails content with type {Formatter.Format(expectedType)}{typeOptions}{options}",
+				null => $"has a ProblemDetails content with any type{options}",
+				_ => $"has a ProblemDetails content with type {Formatter.Format(expectedType)}{typeOptions}{options}",
 			};
 	}
 }

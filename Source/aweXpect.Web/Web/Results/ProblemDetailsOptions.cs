@@ -118,7 +118,9 @@ public class ProblemDetailsOptions
 		{
 			0 => "",
 			1 => $" and {_parts[0].Invoke()}",
-			_ =>
-				$", {string.Join(", ", _parts.Take(_parts.Count - 1).Select(part => part.Invoke()))} and {_parts.Last().Invoke()}",
+			_ => $", {string
+				.Join(", ", _parts
+					.Take(_parts.Count - 1)
+					.Select(part => part.Invoke()))} and {_parts[^1].Invoke()}",
 		};
 }
