@@ -1,49 +1,50 @@
-﻿using System.IO;
-using System.Net.Http;
+﻿using System.Net.Http;
 
 namespace aweXpect.Tests;
 
 public sealed partial class ThatHttpResponseMessage
 {
-	public sealed partial class HasHeader
+	public sealed class DoesNotHaveHeader
 	{
 		public sealed class Tests
 		{
 			[Fact]
-			public async Task WhenHeaderDoesNotExist_ShouldFail()
+			public async Task WhenHeaderDoesNotExist_ShouldSucceed()
 			{
 				string name = "x-my-header";
 				HttpResponseMessage subject = ResponseBuilder
 					.WithContent("some content");
 
 				async Task Act()
-					=> await That(subject).HasHeader(name);
+					=> await That(subject).DoesNotHaveHeader(name);
+
+				await That(Act).DoesNotThrow();
+			}
+
+			[Fact]
+			public async Task WhenHeaderExists_ShouldFail()
+			{
+				string name = "x-my-header";
+				HttpResponseMessage subject = ResponseBuilder
+					.WithHeader(name, "some header")
+					.WithContent("some content");
+
+				async Task Act()
+					=> await That(subject).DoesNotHaveHeader(name);
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
 					             Expected that subject
-					             has a `x-my-header` header,
-					             but it did not contain the expected header
+					             does not have a `x-my-header` header,
+					             but it did contain the `x-my-header` header: ["some header"]
 
 					             HTTP-Request:
 					               HTTP/1.1 200 OK
+					                 x-my-header: some header
 					                 Content-Type: text/plain; charset=utf-8
 					               some content
 					               The originating request was <null>
 					             """);
-			}
-
-			[Fact]
-			public async Task WhenHeaderExists_ShouldSucceed()
-			{
-				string name = "x-my-header";
-				HttpResponseMessage subject = ResponseBuilder
-					.WithHeader(name, "some header");
-
-				async Task Act()
-					=> await That(subject).HasHeader(name);
-
-				await That(Act).DoesNotThrow();
 			}
 
 			[Fact]
@@ -52,12 +53,12 @@ public sealed partial class ThatHttpResponseMessage
 				HttpResponseMessage? subject = null;
 
 				async Task Act()
-					=> await That(subject).HasHeader("x-my-header");
+					=> await That(subject).DoesNotHaveHeader("x-my-header");
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
 					             Expected that subject
-					             has a `x-my-header` header,
+					             does not have a `x-my-header` header,
 					             but it was <null>
 					             """);
 			}
