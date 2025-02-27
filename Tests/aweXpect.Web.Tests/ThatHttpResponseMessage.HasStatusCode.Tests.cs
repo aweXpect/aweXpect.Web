@@ -26,12 +26,12 @@ public sealed partial class ThatHttpResponseMessage
 					             Expected that subject
 					             has status code 200 OK,
 					             but it had status code 400 BadRequest
-					             
+
 					             HTTP-Request:
 					               GET https://awexpect.com/ HTTP/1.1
 					                 Content-Type: text/plain; charset=utf-8
 					               request content
-					             
+
 					             HTTP-Response:
 					               400 BadRequest HTTP/1.1
 					                 Content-Type: text/plain; charset=utf-8

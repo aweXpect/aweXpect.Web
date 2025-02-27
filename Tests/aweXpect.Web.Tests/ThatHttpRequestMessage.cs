@@ -1,5 +1,4 @@
-﻿using System.Net;
-using aweXpect.Web.Tests.TestHelpers;
+﻿using aweXpect.Web.Tests.TestHelpers;
 
 namespace aweXpect.Tests;
 

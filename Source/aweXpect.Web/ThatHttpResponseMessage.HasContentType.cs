@@ -44,15 +44,15 @@ public static partial class ThatHttpResponseMessage
 			if (!actual.Content.TryGetMediaType(out string? contentType))
 			{
 				return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
-					$"{it} had no `Content-Type` header")
-					.AddContext(actual, cancellationToken: cancellationToken);
+						$"{it} had no `Content-Type` header")
+					.AddContext(actual, cancellationToken);
 			}
 
 			if (!options.AreConsideredEqual(contentType, expected))
 			{
 				return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
 						options.GetExtendedFailure(it, contentType, expected))
-					.AddContext(actual, cancellationToken: cancellationToken);
+					.AddContext(actual, cancellationToken);
 			}
 
 			return new ConstraintResult.Success<HttpResponseMessage?>(actual, ToString());

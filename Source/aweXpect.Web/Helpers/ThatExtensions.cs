@@ -12,6 +12,7 @@ internal static class ThatExtensions
 {
 	private const string HttpRequestContext = "HTTP-Request";
 	private const string HttpResponseContext = "HTTP-Response";
+
 	[ExcludeFromCodeCoverage]
 	public static IThatIs<T> ThatIs<T>(this IThat<T> subject)
 	{

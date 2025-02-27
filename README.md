@@ -8,7 +8,6 @@
 
 Web extensions for [aweXpect](https://github.com/aweXpect/aweXpect).
 
-
 ## `HttpRequestMessage`
 
 ### Header
@@ -51,8 +50,8 @@ var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/aweXpe
 await Expect.That(request).HasContent("*aweXpect*").AsWildcard();
 ```
 
-You can use the same configuration options as when [comparing strings](https://awexpect.com/docs/expectations/string#equality).
-
+You can use the same configuration options as
+when [comparing strings](https://awexpect.com/docs/expectations/string#equality).
 
 ## `HttpResponseMessage`
 
@@ -104,7 +103,8 @@ HttpResponseMessage response = await httpClient.GetAsync("https://github.com/awe
 await Expect.That(response).HasContent("*aweXpect*").AsWildcard();
 ```
 
-You can use the same configuration options as when [comparing strings](https://awexpect.com/docs/expectations/string#equality).
+You can use the same configuration options as
+when [comparing strings](https://awexpect.com/docs/expectations/string#equality).
 
 Great care was taken to provide as much information as possible, when a status verification failed.  
 The response could look similar to:
@@ -128,7 +128,8 @@ The response could look similar to:
 
 #### Problem Details
 
-You can verify that the content contains a valid [ProblemDetails](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.problemdetails) object:
+You can verify that the content contains a
+valid [ProblemDetails](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.problemdetails) object:
 
 ```csharp
 HttpResponseMessage response = // a call that returns a problem details object
@@ -140,4 +141,5 @@ await Expect.That(response)
     .WithInstance("93c8f977-7ff7-46ed-900f-7b6264624a31");
 ```
 
-For all string values you can use the same configuration options as when [comparing strings](https://awexpect.com/docs/expectations/string#equality). 
+For all string values you can use the same configuration options as
+when [comparing strings](https://awexpect.com/docs/expectations/string#equality). 

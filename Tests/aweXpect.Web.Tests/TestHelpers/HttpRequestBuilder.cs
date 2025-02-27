@@ -8,10 +8,10 @@ internal class HttpRequestBuilder
 {
 	private readonly Dictionary<string, string> _headers = new();
 	private readonly Dictionary<string, string[]> _multiHeaders = new();
-	private HttpMethod _method = HttpMethod.Head;
-	private string _uri = "https://aweXpect.com";
 	private HttpContent? _content;
 	private string? _contentType;
+	private HttpMethod _method = HttpMethod.Head;
+	private string _uri = "https://aweXpect.com";
 
 	/// <summary>
 	///     Implicitly converts the <paramref name="builder" /> to a <see cref="HttpResponseMessage" />.

@@ -132,8 +132,8 @@ public class StatusCodeResult(
 			}
 
 			return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
-				$"{it} had status code {Formatter.Format(value)}")
-				.AddContext(actual, cancellationToken: cancellationToken);
+					$"{it} had status code {Formatter.Format(value)}")
+				.AddContext(actual, cancellationToken);
 		}
 
 		public override string ToString()
