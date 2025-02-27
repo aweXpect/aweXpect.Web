@@ -2,11 +2,11 @@
 
 namespace aweXpect.Tests;
 
-public sealed partial class ThatHttpResponseMessage
+public sealed partial class ThatHttpRequestMessage
 {
 	public sealed partial class HasHeader
 	{
-		public sealed class WhoseValueTests
+		public sealed class WithValueTests
 		{
 			[Fact]
 			public async Task WhenHeaderDoesNotExist_ShouldFail()
@@ -14,11 +14,11 @@ public sealed partial class ThatHttpResponseMessage
 				string name = "x-my-header";
 				string value = "some header";
 				string otherKey = "x-some-other-key";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithHeader(name, value);
 
 				async Task Act()
-					=> await That(subject).HasHeader(otherKey).WhoseValue(v => v.IsEqualTo(value));
+					=> await That(subject).HasHeader(otherKey).WithValue(value);
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
@@ -26,10 +26,9 @@ public sealed partial class ThatHttpResponseMessage
 					             has a `x-some-other-key` header whose value is equal to "some header",
 					             but it did not contain the expected header
 
-					             HTTP-Response:
-					               200 OK HTTP/1.1
+					             HTTP-Request:
+					               HEAD https://awexpect.com/ HTTP/1.1
 					                 x-my-header: some header
-					                 Content-Type: text/plain; charset=utf-8
 					             """);
 			}
 
@@ -39,11 +38,11 @@ public sealed partial class ThatHttpResponseMessage
 				string name = "x-my-header";
 				string value = "some header";
 				string expectedValue = "some other header";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithHeader(name, value);
 
 				async Task Act()
-					=> await That(subject).HasHeader(name).WhoseValue(v => v.IsEqualTo(expectedValue));
+					=> await That(subject).HasHeader(name).WithValue(expectedValue);
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
@@ -62,11 +61,11 @@ public sealed partial class ThatHttpResponseMessage
 			{
 				string name = "x-my-header";
 				string value = "some header";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithHeader(name, value);
 
 				async Task Act()
-					=> await That(subject).HasHeader(name).WhoseValue(v => v.IsEqualTo(value));
+					=> await That(subject).HasHeader(name).WithValue(value);
 
 				await That(Act).DoesNotThrow();
 			}
@@ -74,15 +73,15 @@ public sealed partial class ThatHttpResponseMessage
 			[Fact]
 			public async Task WhenSubjectIsNull_ShouldFail()
 			{
-				HttpResponseMessage? subject = null;
+				HttpRequestMessage? subject = null;
 
 				async Task Act()
-					=> await That(subject).HasHeader("x-my-key").WhoseValue(v => v.IsEmpty());
+					=> await That(subject).HasHeader("x-my-key").WithValue("foo");
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
 					             Expected that subject
-					             has a `x-my-key` header whose value is empty,
+					             has a `x-my-key` header whose value is equal to "foo",
 					             but it was <null>
 					             """);
 			}

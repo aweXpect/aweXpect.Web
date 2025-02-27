@@ -2,7 +2,7 @@
 
 namespace aweXpect.Tests;
 
-public sealed partial class ThatHttpResponseMessage
+public sealed partial class ThatHttpRequestMessage
 {
 	public sealed partial class HasHeader
 	{
@@ -12,7 +12,7 @@ public sealed partial class ThatHttpResponseMessage
 			public async Task WhenHeaderDoesNotExist_ShouldFail()
 			{
 				string name = "x-my-header";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithContent("some content");
 
 				async Task Act()
@@ -24,8 +24,8 @@ public sealed partial class ThatHttpResponseMessage
 					             has a `x-my-header` header,
 					             but it did not contain the expected header
 
-					             HTTP-Response:
-					               200 OK HTTP/1.1
+					             HTTP-Request:
+					               HEAD https://awexpect.com/ HTTP/1.1
 					                 Content-Type: text/plain; charset=utf-8
 					               some content
 					             """);
@@ -35,7 +35,7 @@ public sealed partial class ThatHttpResponseMessage
 			public async Task WhenHeaderExists_ShouldSucceed()
 			{
 				string name = "x-my-header";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithHeader(name, "some header");
 
 				async Task Act()
@@ -47,7 +47,7 @@ public sealed partial class ThatHttpResponseMessage
 			[Fact]
 			public async Task WhenSubjectIsNull_ShouldFail()
 			{
-				HttpResponseMessage? subject = null;
+				HttpRequestMessage? subject = null;
 
 				async Task Act()
 					=> await That(subject).HasHeader("x-my-header");

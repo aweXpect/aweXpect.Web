@@ -2,7 +2,7 @@
 
 namespace aweXpect.Tests;
 
-public sealed partial class ThatHttpResponseMessage
+public sealed partial class ThatHttpRequestMessage
 {
 	public sealed partial class HasContent
 	{
@@ -12,7 +12,7 @@ public sealed partial class ThatHttpResponseMessage
 			public async Task WhenContentDiffersFromExpected_ShouldFail()
 			{
 				string expected = "other content";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithContent("some content");
 
 				async Task Act()
@@ -28,8 +28,8 @@ public sealed partial class ThatHttpResponseMessage
 					               "other content"
 					                ↑ (expected)
 
-					             HTTP-Response:
-					               200 OK HTTP/1.1
+					             HTTP-Request:
+					               HEAD https://awexpect.com/ HTTP/1.1
 					                 Content-Type: text/plain; charset=utf-8
 					                 Content-Length: 12
 					               some content
@@ -40,7 +40,7 @@ public sealed partial class ThatHttpResponseMessage
 			public async Task WhenContentEqualsExpected_ShouldSucceed()
 			{
 				string expected = "some content";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithContent(expected);
 
 				async Task Act()
@@ -52,7 +52,7 @@ public sealed partial class ThatHttpResponseMessage
 			[Fact]
 			public async Task WhenSubjectIsNull_ShouldFail()
 			{
-				HttpResponseMessage? subject = null;
+				HttpRequestMessage? subject = null;
 
 				async Task Act()
 					=> await That(subject).HasContent("some content");
