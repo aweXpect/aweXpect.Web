@@ -2,35 +2,40 @@
 
 namespace aweXpect.Tests;
 
-public sealed partial class ThatHttpResponseMessage
+public sealed partial class ThatHttpRequestMessage
 {
 	public sealed partial class HasHeader
 	{
-		public sealed class WhoseValueTests
+		public sealed class WhoseValuesTests
 		{
 			[Fact]
 			public async Task WhenHeaderDoesNotExist_ShouldFail()
 			{
 				string name = "x-my-header";
-				string value = "some header";
+				string[] value = ["foo", "bar", "baz",];
 				string otherKey = "x-some-other-key";
-				HttpResponseMessage subject = ResponseBuilder
-					.WithHeader(name, value);
+				HttpRequestMessage subject = RequestBuilder
+					.WithHeaders(name, value);
 
 				async Task Act()
-					=> await That(subject).HasHeader(otherKey).WhoseValue(v => v.IsEqualTo(value));
+					=> await That(subject).HasHeader(otherKey).WhoseValues(v => v.HasCount().EqualTo(3));
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
 					             Expected that subject
-					             has a `x-some-other-key` header whose value is equal to "some header",
+					             has a `x-some-other-key` header whose values has exactly 3 items,
 					             but it did not contain the expected header
 
-					             HTTP-Response:
-					               200 OK HTTP/1.1
-					                 x-my-header: some header
-					                 Content-Type: text/plain; charset=utf-8
+					             HTTP-Request:
+					               HEAD https://awexpect.com/ HTTP/1.1
+					                 x-my-header: foo
+					                 x-my-header: bar
+					                 x-my-header: baz
 					             """);
+				new HttpRequestMessage(HttpMethod.Post, "https://github.com/aweXpect/aweXpect.Web")
+				{
+					Content = new StringContent("my content")
+				};
 			}
 
 			[Fact]
@@ -39,21 +44,19 @@ public sealed partial class ThatHttpResponseMessage
 				string name = "x-my-header";
 				string value = "some header";
 				string expectedValue = "some other header";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithHeader(name, value);
 
 				async Task Act()
-					=> await That(subject).HasHeader(name).WhoseValue(v => v.IsEqualTo(expectedValue));
+					=> await That(subject).HasHeader(name).WhoseValues(v => v.Contains(expectedValue));
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
 					             Expected that subject
-					             has a `x-my-header` header whose value is equal to "some other header",
-					             but the value was "some header" which differs at index 5:
-					                     ↓ (actual)
+					             has a `x-my-header` header whose values contains "some other header" at least once,
+					             but the values contained it 0 times in [
 					               "some header"
-					               "some other header"
-					                     ↑ (expected)
+					             ]
 					             """);
 			}
 
@@ -62,11 +65,11 @@ public sealed partial class ThatHttpResponseMessage
 			{
 				string name = "x-my-header";
 				string value = "some header";
-				HttpResponseMessage subject = ResponseBuilder
+				HttpRequestMessage subject = RequestBuilder
 					.WithHeader(name, value);
 
 				async Task Act()
-					=> await That(subject).HasHeader(name).WhoseValue(v => v.IsEqualTo(value));
+					=> await That(subject).HasHeader(name).WhoseValues(v => v.Contains(value));
 
 				await That(Act).DoesNotThrow();
 			}
@@ -74,15 +77,15 @@ public sealed partial class ThatHttpResponseMessage
 			[Fact]
 			public async Task WhenSubjectIsNull_ShouldFail()
 			{
-				HttpResponseMessage? subject = null;
+				HttpRequestMessage? subject = null;
 
 				async Task Act()
-					=> await That(subject).HasHeader("x-my-key").WhoseValue(v => v.IsEmpty());
+					=> await That(subject).HasHeader("x-my-key").WhoseValues(v => v.IsEmpty());
 
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
 					             Expected that subject
-					             has a `x-my-key` header whose value is empty,
+					             has a `x-my-key` header whose values are empty,
 					             but it was <null>
 					             """);
 			}

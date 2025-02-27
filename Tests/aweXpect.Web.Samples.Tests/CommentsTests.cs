@@ -55,9 +55,12 @@ public class CommentsTests(WebApplicationFactory<Program> factory) : IClassFixtu
 			             Expected that response
 			             has status code 404 NotFound,
 			             but it had status code 200 OK
-
+			             
 			             HTTP-Request:
-			               HTTP/1.1 200 OK
+			               GET http://localhost/comments HTTP/1.1
+			             
+			             HTTP-Response:
+			               200 OK HTTP/1.1
 			                 Content-Type: application/json; charset=utf-8
 			               [
 			                 {
@@ -71,8 +74,6 @@ public class CommentsTests(WebApplicationFactory<Program> factory) : IClassFixtu
 			                   "body": "Another comment (my second)"
 			                 }
 			               ]
-			               The originating request was:
-			                 GET http://localhost/comments HTTP 1.1
 			             """);
 	}
 }
