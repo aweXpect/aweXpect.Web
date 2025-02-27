@@ -37,7 +37,7 @@ public static partial class ThatHttpRequestMessage
 						async m => m.Content == null ? null : await m.Content.ReadAsStringAsync(),
 						" the string content"),
 					(member, stringBuilder) => stringBuilder.Append("has a string content which "))
-				.AddContexts(async httpResponse =>await httpResponse.GetContexts())
+				.AddContexts(async httpResponse => await httpResponse.GetContexts())
 				.AddExpectations(e => expectations(new ThatSubject<string?>(e)), ExpectationGrammars.Nested),
 			source);
 
@@ -70,10 +70,9 @@ public static partial class ThatHttpRequestMessage
 				return new ConstraintResult.Success<HttpRequestMessage?>(actual, ToString());
 			}
 
-			string formattedResponse =
-				await HttpResponseMessageFormatter.Format(actual, "  ", cancellationToken);
-			return new ConstraintResult.Failure<HttpRequestMessage?>(actual, ToString(),
-				options.GetExtendedFailure(it, message, expected)).WithContext("HTTP-Request", formattedResponse);
+			return await new ConstraintResult.Failure<HttpRequestMessage?>(actual, ToString(),
+					options.GetExtendedFailure(it, message, expected))
+				.AddContext(actual, cancellationToken);
 		}
 
 		public override string ToString()

@@ -63,7 +63,7 @@ internal class HttpRequestBuilder
 		httpRequestMessage.Method = _method;
 		httpRequestMessage.RequestUri = new Uri(_uri);
 		httpRequestMessage.Content = _content;
-		if (!string.IsNullOrEmpty(_contentType))
+		if (!string.IsNullOrEmpty(_contentType) && httpRequestMessage.Content != null)
 		{
 			httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(_contentType);
 		}

@@ -82,7 +82,7 @@ public static partial class ThatHttpResponseMessage
 			return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
 					$"{it} did contain the `{unexpected}` header: {Formatter.Format(foundHeader)}",
 					FurtherProcessingStrategy.IgnoreResult)
-				.AddContext(actual);
+				.AddContext(actual, cancellationToken);
 		}
 
 		public override string ToString()

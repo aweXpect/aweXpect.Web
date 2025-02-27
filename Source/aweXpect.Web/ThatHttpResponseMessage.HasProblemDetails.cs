@@ -119,7 +119,7 @@ public static partial class ThatHttpResponseMessage
 			{
 				return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
 						string.Join($"{Environment.NewLine} and ", failures))
-					.AddContext(actual);
+					.AddContext(actual, cancellationToken);
 			}
 
 			return new ConstraintResult.Success<HttpResponseMessage?>(actual, ToString());

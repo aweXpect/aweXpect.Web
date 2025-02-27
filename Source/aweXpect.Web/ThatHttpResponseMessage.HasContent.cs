@@ -31,8 +31,7 @@ public static partial class ThatHttpResponseMessage
 	/// </summary>
 	public static AndOrResult<HttpResponseMessage, IThat<HttpResponseMessage?>>
 		HasContent(this IThat<HttpResponseMessage?> source, Action<IThat<string?>> expectations)
-	{
-		return new AndOrResult<HttpResponseMessage, IThat<HttpResponseMessage?>>(
+		=> new(
 			source.ThatIs().ExpectationBuilder
 				.ForAsyncMember(MemberAccessor<HttpResponseMessage, Task<string?>>.FromFunc(
 						async m => await m.Content.ReadAsStringAsync(),
@@ -41,7 +40,6 @@ public static partial class ThatHttpResponseMessage
 				.AddContexts(async httpResponse => await httpResponse.GetContexts())
 				.AddExpectations(e => expectations(new ThatSubject<string?>(e)), ExpectationGrammars.Nested),
 			source);
-	}
 
 	private readonly struct HasContentConstraint(string it, string expected, StringEqualityOptions options)
 		: IAsyncConstraint<HttpResponseMessage>
@@ -67,7 +65,8 @@ public static partial class ThatHttpResponseMessage
 			}
 
 			return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
-				options.GetExtendedFailure(it, message, expected)).AddContext(actual);
+					options.GetExtendedFailure(it, message, expected))
+				.AddContext(actual, cancellationToken);
 		}
 
 		public override string ToString()

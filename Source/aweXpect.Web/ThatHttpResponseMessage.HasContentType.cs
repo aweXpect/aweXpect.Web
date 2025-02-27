@@ -45,14 +45,14 @@ public static partial class ThatHttpResponseMessage
 			{
 				return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
 					$"{it} had no `Content-Type` header")
-					.AddContext(actual);
+					.AddContext(actual, cancellationToken: cancellationToken);
 			}
 
 			if (!options.AreConsideredEqual(contentType, expected))
 			{
 				return await new ConstraintResult.Failure<HttpResponseMessage?>(actual, ToString(),
 						options.GetExtendedFailure(it, contentType, expected))
-					.AddContext(actual);
+					.AddContext(actual, cancellationToken: cancellationToken);
 			}
 
 			return new ConstraintResult.Success<HttpResponseMessage?>(actual, ToString());

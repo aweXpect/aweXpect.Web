@@ -32,10 +32,6 @@ public sealed partial class ThatHttpRequestMessage
 					                 x-my-header: bar
 					                 x-my-header: baz
 					             """);
-				new HttpRequestMessage(HttpMethod.Post, "https://github.com/aweXpect/aweXpect.Web")
-				{
-					Content = new StringContent("my content")
-				};
 			}
 
 			[Fact]

@@ -10,6 +10,8 @@ namespace aweXpect.Helpers;
 
 internal static class ThatExtensions
 {
+	private const string HttpRequestContext = "HTTP-Request";
+	private const string HttpResponseContext = "HTTP-Response";
 	[ExcludeFromCodeCoverage]
 	public static IThatIs<T> ThatIs<T>(this IThat<T> subject)
 	{
@@ -28,7 +30,7 @@ internal static class ThatExtensions
 
 	public static async Task<ConstraintResult> AddContext(this ConstraintResult result, HttpRequestMessage request,
 		CancellationToken cancellationToken = default)
-		=> result.WithContext("HTTP-Request",
+		=> result.WithContext(HttpRequestContext,
 			await HttpResponseMessageFormatter.Format(request, "  ", cancellationToken));
 
 	public static async Task<ConstraintResult> AddContext(this ConstraintResult result, HttpResponseMessage response,
@@ -36,14 +38,14 @@ internal static class ThatExtensions
 	{
 		if (response.RequestMessage is null)
 		{
-			return result.WithContext("HTTP-Response",
+			return result.WithContext(HttpResponseContext,
 				await HttpResponseMessageFormatter.Format(response, "  ", cancellationToken));
 		}
 
 		return result.WithContexts(
-			new ConstraintResult.Context("HTTP-Request",
+			new ConstraintResult.Context(HttpRequestContext,
 				await HttpResponseMessageFormatter.Format(response.RequestMessage, "  ", cancellationToken)),
-			new ConstraintResult.Context("HTTP-Response",
+			new ConstraintResult.Context(HttpResponseContext,
 				await HttpResponseMessageFormatter.Format(response, "  ", cancellationToken)));
 	}
 
@@ -59,16 +61,16 @@ internal static class ThatExtensions
 		{
 			return
 			[
-				new ConstraintResult.Context("HTTP-Response",
+				new ConstraintResult.Context(HttpResponseContext,
 					await HttpResponseMessageFormatter.Format(response, "  ", cancellationToken)),
 			];
 		}
 
 		return
 		[
-			new ConstraintResult.Context("HTTP-Request",
+			new ConstraintResult.Context(HttpRequestContext,
 				await HttpResponseMessageFormatter.Format(response.RequestMessage, "  ", cancellationToken)),
-			new ConstraintResult.Context("HTTP-Response",
+			new ConstraintResult.Context(HttpResponseContext,
 				await HttpResponseMessageFormatter.Format(response, "  ", cancellationToken)),
 		];
 	}
@@ -83,7 +85,7 @@ internal static class ThatExtensions
 
 		return
 		[
-			new ConstraintResult.Context("HTTP-Request",
+			new ConstraintResult.Context(HttpRequestContext,
 				await HttpResponseMessageFormatter.Format(request, "  ", cancellationToken)),
 		];
 	}
