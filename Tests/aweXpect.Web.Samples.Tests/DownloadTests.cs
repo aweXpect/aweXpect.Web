@@ -38,17 +38,17 @@ public class DownloadTests(WebApplicationFactory<Program> factory) : IClassFixtu
 			               "image/png"
 			               "image/jpg"
 			                      ↑ (expected)
-			             
+
 			             HTTP-Request:
 			               GET http://localhost/download HTTP/1.1
-			             
+
 			             HTTP-Response:
 			               200 OK HTTP/1.1
 			                 Last-Modified: ???, ?? ??? ???? ??:??:?? ???
 			                 Content-Type: image/png
 			                 Content-Disposition: attachment; filename=failure.png; filename*=UTF-8''failure.png
-			                 Content-Length: 171931
-			               *Content is binary (image/png) with length 171931*
+			                 Content-Length: 141834
+			               *Content is binary (image/png) with length 141834*
 			             """).AsWildcard();
 	}
 }
