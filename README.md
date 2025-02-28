@@ -31,9 +31,6 @@ await Expect.That(request).HasRequestUri("https://github.com/aweXpect/aweXpect.W
 await Expect.That(request).HasRequestUri(new Uri("https://github.com/aweXpect/aweXpect.Web"));
 ```
 
-You can use the same configuration options as
-when [comparing strings](https://awexpect.com/docs/expectations/string#equality).
-
 ### Header
 
 You can verify the headers of the `HttpRequestMessage`:

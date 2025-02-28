@@ -37,9 +37,12 @@ public sealed partial class ThatHttpRequestMessage
 				await That(Act).Throws<XunitException>()
 					.WithMessage("""
 					             Expected that subject
-					             has a request URI equal to "https://awexpect.com/awexpect.…",
-					             but it was "https://awexpect.com/" with a length of 21 which is shorter than the expected length of 33 and misses:
-					               "awexpect.Web"
+					             has a request URI equal to "https://awexpect.com/awexpect.Web",
+					             but it was "https://awexpect.com/" which differs at index 21:
+					                           ↓ (actual)
+					               "…xpect.com/"
+					               "…xpect.com/awexpect.Web"
+					                           ↑ (expected)
 
 					             HTTP-Request:
 					               GET https://awexpect.com/ HTTP/1.1

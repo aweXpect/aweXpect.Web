@@ -3,7 +3,6 @@ using System.Net.Http;
 using aweXpect.Core;
 using aweXpect.Core.Constraints;
 using aweXpect.Helpers;
-using aweXpect.Options;
 using aweXpect.Results;
 
 namespace aweXpect;
@@ -14,41 +13,32 @@ public static partial class ThatHttpRequestMessage
 	///     Verifies that the <see cref="HttpRequestMessage" /> has the <paramref name="expected" />
 	///     <see cref="HttpRequestMessage.RequestUri" />.
 	/// </summary>
-	public static StringEqualityTypeResult<HttpRequestMessage, IThat<HttpRequestMessage?>>
+	public static AndOrResult<HttpRequestMessage, IThat<HttpRequestMessage?>>
 		HasRequestUri(this IThat<HttpRequestMessage?> source, string expected)
-	{
-		StringEqualityOptions options = new();
-		return new StringEqualityTypeResult<HttpRequestMessage, IThat<HttpRequestMessage?>>(
+		=> new(
 			source.ThatIs().ExpectationBuilder
 				.UpdateContexts(c => c.Close())
 				.AddConstraint((expectationBuilder, it, grammar) =>
-					new HasRequestUriConstraint(expectationBuilder, it, new Uri(expected).ToString(), options)),
-			source,
-			options);
-	}
+					new HasRequestUriConstraint(expectationBuilder, it, new Uri(expected).ToString())),
+			source);
 
 	/// <summary>
 	///     Verifies that the <see cref="HttpRequestMessage" /> has the <paramref name="expected" />
 	///     <see cref="HttpRequestMessage.RequestUri" />.
 	/// </summary>
-	public static StringEqualityTypeResult<HttpRequestMessage, IThat<HttpRequestMessage?>>
+	public static AndOrResult<HttpRequestMessage, IThat<HttpRequestMessage?>>
 		HasRequestUri(this IThat<HttpRequestMessage?> source, Uri expected)
-	{
-		StringEqualityOptions options = new();
-		return new StringEqualityTypeResult<HttpRequestMessage, IThat<HttpRequestMessage?>>(
+		=> new(
 			source.ThatIs().ExpectationBuilder
 				.UpdateContexts(c => c.Close())
 				.AddConstraint((expectationBuilder, it, grammar) =>
-					new HasRequestUriConstraint(expectationBuilder, it, expected.ToString(), options)),
-			source,
-			options);
-	}
+					new HasRequestUriConstraint(expectationBuilder, it, expected.ToString())),
+			source);
 
 	private readonly struct HasRequestUriConstraint(
 		ExpectationBuilder expectationBuilder,
 		string it,
-		string expected,
-		StringEqualityOptions options)
+		string expected)
 		: IValueConstraint<HttpRequestMessage>
 	{
 		public ConstraintResult IsMetBy(HttpRequestMessage? actual)
@@ -60,17 +50,17 @@ public static partial class ThatHttpRequestMessage
 			}
 
 			string? requestUri = actual.RequestUri?.ToString();
-			if (!options.AreConsideredEqual(requestUri, expected))
+			if (requestUri?.Equals(expected, StringComparison.OrdinalIgnoreCase) == true)
 			{
-				expectationBuilder.AddContext(actual);
-				return new ConstraintResult.Failure<HttpRequestMessage?>(actual, ToString(),
-					options.GetExtendedFailure(it, requestUri, expected));
+				return new ConstraintResult.Success<HttpRequestMessage?>(actual, ToString());
 			}
 
-			return new ConstraintResult.Success<HttpRequestMessage?>(actual, ToString());
+			expectationBuilder.AddContext(actual);
+			return new ConstraintResult.Failure<HttpRequestMessage?>(actual, ToString(),
+				$"{it} was {Formatter.Format(requestUri)} which {new StringDifference(requestUri, expected)}");
 		}
 
 		public override string ToString()
-			=> $"has a request URI {options.GetExpectation(expected, ExpectationGrammars.None)}";
+			=> $"has a request URI equal to {Formatter.Format(expected)}";
 	}
 }
