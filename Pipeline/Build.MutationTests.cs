@@ -192,7 +192,7 @@ partial class Build
 					if (commentId == null)
 					{
 						Log.Information($"Create comment:\n{body}");
-						await gitHubClient.Issue.Comment.Create("aweXpect", "aweXpect.Weg", prId, body);
+						await gitHubClient.Issue.Comment.Create("aweXpect", "aweXpect.Web", prId, body);
 					}
 					else
 					{
