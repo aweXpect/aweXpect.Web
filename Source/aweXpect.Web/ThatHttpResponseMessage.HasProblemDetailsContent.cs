@@ -59,7 +59,7 @@ public static partial class ThatHttpResponseMessage
 		: ConstraintResult.WithNotNullValue<HttpResponseMessage>(it, grammars),
 			IAsyncConstraint<HttpResponseMessage>
 	{
-		private List<string> _failures = [];
+		private readonly List<string> _failures = [];
 
 		public async Task<ConstraintResult> IsMetBy(
 			HttpResponseMessage? actual,

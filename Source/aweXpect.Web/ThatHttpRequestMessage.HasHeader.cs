@@ -38,7 +38,7 @@ public static partial class ThatHttpRequestMessage
 			source);
 
 	private sealed class HasHeaderConstraint(
-		ExpectationBuilder expectationBuilder, 
+		ExpectationBuilder expectationBuilder,
 		string it,
 		ExpectationGrammars grammars,
 		string expected)

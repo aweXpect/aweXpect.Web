@@ -47,7 +47,8 @@ public static partial class ThatHttpResponseMessage
 						},
 						" the string content"),
 					(_, stringBuilder) => stringBuilder.Append("has a string content which "))
-				.AddExpectations(e => expectations(new ThatSubject<string?>(e)), grammars => grammars | ExpectationGrammars.Nested),
+				.AddExpectations(e => expectations(new ThatSubject<string?>(e)),
+					grammars => grammars | ExpectationGrammars.Nested),
 			source);
 	}
 
@@ -61,6 +62,7 @@ public static partial class ThatHttpResponseMessage
 			IAsyncConstraint<HttpResponseMessage>
 	{
 		private string? _message;
+
 		public async Task<ConstraintResult> IsMetBy(
 			HttpResponseMessage? actual,
 			CancellationToken cancellationToken)
@@ -89,7 +91,8 @@ public static partial class ThatHttpResponseMessage
 		}
 
 		protected override void AppendNormalExpectation(StringBuilder stringBuilder, string? indentation = null)
-			=> stringBuilder.Append("has a string content ").Append(options.GetExpectation(expected, ExpectationGrammars.None));
+			=> stringBuilder.Append("has a string content ")
+				.Append(options.GetExpectation(expected, ExpectationGrammars.None));
 
 		protected override void AppendNormalResult(StringBuilder stringBuilder, string? indentation = null)
 		{
@@ -103,6 +106,7 @@ public static partial class ThatHttpResponseMessage
 			}
 		}
 
-		protected override void AppendNegatedExpectation(StringBuilder stringBuilder, string? indentation = null) => throw new NotImplementedException();
+		protected override void AppendNegatedExpectation(StringBuilder stringBuilder, string? indentation = null)
+			=> throw new NotImplementedException();
 	}
 }

@@ -62,6 +62,7 @@ public static partial class ThatHttpRequestMessage
 			IAsyncConstraint<HttpRequestMessage>
 	{
 		private string? _message;
+
 		public async Task<ConstraintResult> IsMetBy(
 			HttpRequestMessage? actual,
 			CancellationToken cancellationToken)
@@ -97,7 +98,8 @@ public static partial class ThatHttpRequestMessage
 		}
 
 		protected override void AppendNormalExpectation(StringBuilder stringBuilder, string? indentation = null)
-			=> stringBuilder.Append("has a string content ").Append(options.GetExpectation(expected, ExpectationGrammars.None));
+			=> stringBuilder.Append("has a string content ")
+				.Append(options.GetExpectation(expected, ExpectationGrammars.None));
 
 		protected override void AppendNormalResult(StringBuilder stringBuilder, string? indentation = null)
 		{
@@ -111,6 +113,7 @@ public static partial class ThatHttpRequestMessage
 			}
 		}
 
-		protected override void AppendNegatedExpectation(StringBuilder stringBuilder, string? indentation = null) => throw new NotImplementedException();
+		protected override void AppendNegatedExpectation(StringBuilder stringBuilder, string? indentation = null)
+			=> throw new NotImplementedException();
 	}
 }

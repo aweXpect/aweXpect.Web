@@ -90,6 +90,7 @@ public class HasHeaderValueResult<TType, TThat>
 			IValueConstraint<TType?>
 	{
 		private string?[]? _headerValues;
+
 		public ConstraintResult IsMetBy(TType? actual)
 		{
 			Actual = actual;
@@ -98,7 +99,7 @@ public class HasHeaderValueResult<TType, TThat>
 				Outcome = Outcome.Failure;
 				return this;
 			}
-			
+
 			_headerValues = headerValueAccessor(actual);
 			if (_headerValues is null || _headerValues.Length != 1)
 			{
@@ -123,6 +124,7 @@ public class HasHeaderValueResult<TType, TThat>
 			{
 				return;
 			}
+
 			if (_headerValues is null)
 			{
 				stringBuilder.Append(it).Append(" did not contain the expected header");
@@ -139,6 +141,6 @@ public class HasHeaderValueResult<TType, TThat>
 		}
 
 		protected override void AppendNegatedExpectation(StringBuilder stringBuilder, string? indentation = null)
-		=> throw new NotImplementedException();
+			=> throw new NotImplementedException();
 	}
 }

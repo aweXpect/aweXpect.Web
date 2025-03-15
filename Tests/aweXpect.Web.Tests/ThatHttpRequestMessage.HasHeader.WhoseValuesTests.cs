@@ -53,7 +53,7 @@ public sealed partial class ThatHttpRequestMessage
 					             but the values contained it 0 times in [
 					               "some header"
 					             ]
-					             
+
 					             HTTP-Request:
 					               HEAD https://awexpect.com/ HTTP/1.1
 					                 x-my-header: some header

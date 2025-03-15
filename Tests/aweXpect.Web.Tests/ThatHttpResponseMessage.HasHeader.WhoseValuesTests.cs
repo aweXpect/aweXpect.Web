@@ -54,7 +54,7 @@ public sealed partial class ThatHttpResponseMessage
 					             but the values contained it 0 times in [
 					               "some header"
 					             ]
-					             
+
 					             HTTP-Response:
 					               200 OK HTTP/1.1
 					                 x-my-header: some header
