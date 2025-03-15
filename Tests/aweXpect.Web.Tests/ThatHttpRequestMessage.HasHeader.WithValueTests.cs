@@ -76,6 +76,10 @@ public sealed partial class ThatHttpRequestMessage
 					               "some header"
 					               "some other header"
 					                     ↑ (expected)
+					             
+					             HTTP-Request:
+					               HEAD https://awexpect.com/ HTTP/1.1
+					                 x-my-header: some header
 					             """);
 			}
 
