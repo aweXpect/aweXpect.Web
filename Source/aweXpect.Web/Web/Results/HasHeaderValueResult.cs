@@ -15,6 +15,7 @@ namespace aweXpect.Web.Results;
 /// </remarks>
 public class HasHeaderValueResult<TType, TThat>
 	: AndOrResult<TType, TThat>
+	where TType : class
 {
 	private readonly ExpectationBuilder _expectationBuilder;
 	private readonly Func<TType, string?[]?> _headerValueAccessor;

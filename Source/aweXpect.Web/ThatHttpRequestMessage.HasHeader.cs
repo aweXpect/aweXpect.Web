@@ -23,7 +23,7 @@ public static partial class ThatHttpRequestMessage
 				.AddConstraint((expectationBuilder, it, grammars) =>
 					new HasHeaderConstraint(expectationBuilder, it, grammars, expected)),
 			source,
-			a => a.Headers.TryGetValues(expected, out IEnumerable<string>? values) ? values?.ToArray() : null);
+			a => a.Headers.TryGetValues(expected, out IEnumerable<string>? values) ? values.ToArray() : null);
 
 	/// <summary>
 	///     Verifies that the <see cref="HttpRequestMessage" /> does not have the <paramref name="unexpected" /> header.
