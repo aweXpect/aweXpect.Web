@@ -38,23 +38,32 @@ partial class Build
 			string fileContent = await File.ReadAllTextAsync(ArtifactsDirectory / "Benchmarks" / "results" /
 			                                                 "aweXpect.Web.Benchmarks.HappyCaseBenchmarks-report-github.md");
 			Log.Information("Report:\n {FileContent}", fileContent);
+			if (GitHubActions?.IsPullRequest == true)
+			{
+				File.WriteAllText(ArtifactsDirectory / "PR.txt", GitHubActions.PullRequestNumber.ToString());
+			}
 		});
 
 	Target BenchmarkComment => _ => _
-		.After(BenchmarkDotNet)
-		.OnlyWhenDynamic(() => GitHubActions.IsPullRequest)
 		.Executes(async () =>
 		{
-			string body = CreateCommentBody();
-			int? prId = GitHubActions.PullRequestNumber;
-			Log.Debug("Pull request number: {PullRequestId}", prId);
-			if (prId != null)
+			await "Benchmarks".DownloadArtifactTo(ArtifactsDirectory, GithubToken);
+			if (!File.Exists(ArtifactsDirectory / "PR.txt"))
+			{
+				Log.Information("Skip writing a comment, as no PR number was specified.");
+				return;
+			}
+
+			string prNumber = File.ReadAllText(ArtifactsDirectory / "PR.txt");
+			string body = CreateBenchmarkCommentBody();
+			Log.Debug("Pull request number: {PullRequestId}", prNumber);
+			if (int.TryParse(prNumber, out int prId))
 			{
 				GitHubClient gitHubClient = new(new ProductHeaderValue("Nuke"));
 				Credentials tokenAuth = new(GithubToken);
 				gitHubClient.Credentials = tokenAuth;
 				IReadOnlyList<IssueComment> comments =
-					await gitHubClient.Issue.Comment.GetAllForIssue("aweXpect", "aweXpect.Web", prId.Value);
+					await gitHubClient.Issue.Comment.GetAllForIssue("aweXpect", "aweXpect.Web", prId);
 				long? commentId = null;
 				Log.Information($"Found {comments.Count} comments");
 				foreach (IssueComment comment in comments)
@@ -69,7 +78,7 @@ partial class Build
 				if (commentId == null)
 				{
 					Log.Information($"Create comment:\n{body}");
-					await gitHubClient.Issue.Comment.Create("aweXpect", "aweXpect.Web", prId.Value, body);
+					await gitHubClient.Issue.Comment.Create("aweXpect", "aweXpect.Web", prId, body);
 				}
 				else
 				{
@@ -81,10 +90,9 @@ partial class Build
 
 	Target Benchmarks => _ => _
 		.DependsOn(BenchmarkDotNet)
-		.DependsOn(BenchmarkResult)
-		.DependsOn(BenchmarkComment);
+		.DependsOn(BenchmarkResult);
 
-	string CreateCommentBody()
+	string CreateBenchmarkCommentBody()
 	{
 		string[] fileContent = File.ReadAllLines(ArtifactsDirectory / "Benchmarks" / "results" /
 		                                         "aweXpect.Web.Benchmarks.HappyCaseBenchmarks-report-github.md");
