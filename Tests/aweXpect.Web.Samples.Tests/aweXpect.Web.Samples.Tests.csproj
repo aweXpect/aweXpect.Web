@@ -10,7 +10,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="aweXpect.Core" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
 		<PackageReference Include="aweXpect.Json" />
 	</ItemGroup>
