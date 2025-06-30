@@ -8,10 +8,6 @@
 		<PackageReference Include="System.Net.Http" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="aweXpect.Core" />
-	</ItemGroup>
-
 	<PropertyGroup>
 		<SignAssembly>True</SignAssembly>
 	</PropertyGroup>
