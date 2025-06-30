@@ -1,11 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Source\aweXpect.Web\aweXpect.Web.csproj"/>
+		<ProjectReference Include="..\..\Source\aweXpect.Web\aweXpect.Web.csproj" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-		<PackageReference Include="System.Net.Http"/>
+		<PackageReference Include="System.Net.Http" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="aweXpect.Core" />
 	</ItemGroup>
 
 	<PropertyGroup>
