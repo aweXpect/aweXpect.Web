@@ -13,11 +13,11 @@ jobs:
                 os: [ ubuntu-latest, windows-latest, macos-latest ]
         runs-on: ${{ matrix.os }}
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
                 with:
                     fetch-depth: 0
             -   name: Setup .NET SDKs
-                uses: actions/setup-dotnet@v4
+                uses: actions/setup-dotnet@v5
                 with:
                     dotnet-version: |
                         8.0.x
@@ -43,11 +43,11 @@ jobs:
         env:
             DOTNET_NOLOGO: true
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
                 with:
                     fetch-depth: 0
             -   name: Setup .NET SDKs
-                uses: actions/setup-dotnet@v4
+                uses: actions/setup-dotnet@v5
                 with:
                     dotnet-version: |
                         8.0.x
@@ -70,11 +70,11 @@ jobs:
             STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
             DOTNET_NOLOGO: true
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
                 with:
                     fetch-depth: 0
             -   name: Setup .NET SDKs
-                uses: actions/setup-dotnet@v4
+                uses: actions/setup-dotnet@v5
                 with:
                     dotnet-version: |
                         8.0.x
@@ -90,11 +90,11 @@ jobs:
         env:
             DOTNET_NOLOGO: true
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
                 with:
                     fetch-depth: 0
             -   name: Setup .NET SDKs
-                uses: actions/setup-dotnet@v4
+                uses: actions/setup-dotnet@v5
                 with:
                     dotnet-version: |
                         8.0.x
@@ -110,11 +110,11 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             DOTNET_NOLOGO: true
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
                 with:
                     fetch-depth: 0
             -   name: Setup .NET SDKs
-                uses: actions/setup-dotnet@v4
+                uses: actions/setup-dotnet@v5
                 with:
                     dotnet-version: |
                         8.0.x
@@ -132,7 +132,7 @@ jobs:
         if: always()
         steps:
             -   name: Download Artifacts
-                uses: actions/download-artifact@v4
+                uses: actions/download-artifact@v5
                 with:
                     path: artifacts
             -   name: Publish Test Results
@@ -148,11 +148,11 @@ jobs:
         env:
             DOTNET_NOLOGO: true
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@v5
                 with:
                     fetch-depth: 0
             -   name: Setup .NET SDKs
-                uses: actions/setup-dotnet@v4
+                uses: actions/setup-dotnet@v5
                 with:
                     dotnet-version: |
                         8.0.x
@@ -176,10 +176,12 @@ jobs:
             contents: write
         steps:
             -   name: Download packages
-                uses: actions/download-artifact@v4
+                uses: actions/download-artifact@v5
                 with:
                     name: Packages
                     path: Artifacts/Packages
+            -   name: Setup .NET SDKs
+                uses: actions/setup-dotnet@v5
             -   name: Publish
                 run: |
                     echo "Found the following packages to push:"
@@ -190,7 +192,7 @@ jobs:
                     done
                     for entry in Artifacts/Packages/*.nupkg
                     do
-                      nuget push $entry -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}} -SkipDuplicate
+                      dotnet nuget push $entry --source https://api.nuget.org/v3/index.json --api-key "${{secrets.NUGET_API_KEY}}" --skip-duplicate
                     done
             -   name: Check pre-release
                 id: check-pre-release
